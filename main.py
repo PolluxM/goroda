@@ -12,9 +12,9 @@ def get_coordinates(city, key):
             lon = round(results[0]['geometry']['lng'], 2)
             country = results[0]['components']['country']
 
-            if "stage" in results[0]['components']:
+            if "state" in results[0]['components']:
                 region = results[0]['components']['state']
-                return f"Широта {lat}, Долгота {lon},\n Страна: {country}. Регион: {region}"
+                return f"Широта {lat}, Долгота {lon},\n Страна: {country}.\n Регион: {region}"
             else:
                 return f"Широта {lat}, Долгота {lon},\n Страна: {country}"
 
@@ -32,7 +32,7 @@ key = '9b90a8325e184c319cdfbca0fde66855'
 
 window = Tk()
 window.title("Координаты городов")
-window.geometry("400x100")
+window.geometry("400x200")
 
 entry = Entry()
 entry.pack()
