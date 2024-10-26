@@ -12,16 +12,22 @@ def get_coordinates(city, key):
             lat = round(results[0]['geometry']['lat'], 2)
             lng = round(results[0]['geometry']['lng'], 2)
             country = results[0]['components']['country']
-            region = results[0]['components']['state']
-            currency = results[1]['annotations']['currency']['name']
-            iso_code = results[1]['annotations']['currency']['iso_code']
+            currency = results[0]['annotations']['currency']['name']
+            iso_code = results[0]['annotations']['currency']['iso_code']
             osm_url = f"https://www.openstreetmap.org/?mlat={lat}&mlon={lng}"
-
-            return {
-                "coordinates": f"Широта: {lat}, Долгота: {lng}\nСтрана: {country}\nРегион: {region}\n"
-                f"Валюта страны: {currency}\n Международный КОД валюты: {iso_code}",
-                "map_url": osm_url
-            }
+            if "state" in results[0]['components']:
+                region = results[0]['components']['state']
+                return {
+                    "coordinates": f"Широта: {lat}, Долгота: {lng}\nСтрана: {country}\nРегион: {region}\n"
+                                   f"Валюта страны: {currency}\n Международный КОД валюты: {iso_code}",
+                    "map_url": osm_url
+                }
+            else:
+                return {
+                    "coordinates": f"Широта: {lat}, Долгота: {lng}\nСтрана: {country}\n"
+                                   f"Валюта страны: {currency}\n Международный КОД валюты: {iso_code}",
+                    "map_url": osm_url
+                }
         else:
             return {"coordinates": "Город не найден", "map_url": None}
     except Exception as e:
