@@ -1,6 +1,7 @@
 #по Модулую M10_L3
 from opencage.geocoder import OpenCageGeocode
 from tkinter import *
+import webbrowser
 
 
 def get_coordinates(city, key):
@@ -9,14 +10,15 @@ def get_coordinates(city, key):
         results = geocoder.geocode(city, language="ru")
         if results:
             lat = round(results[0]['geometry']['lat'], 2)
-            lon = round(results[0]['geometry']['lng'], 2)
+            lng = round(results[0]['geometry']['lng'], 2)
             country = results[0]['components']['country']
+            osm_url = f"https://www.openstreetmap.org/?mlat={lat}&mlon{lng}"
 
-            if "state" in results[0]['components']:
-                region = results[0]['components']['state']
-                return f"Широта {lat}, Долгота {lon},\n Страна: {country}.\n Регион: {region}"
+            #if "state" in results[0]['components']:
+                #region = results[0]['components']['state']
+                return {"coordinates": f"Широта {lat}, Долгота {lng},\n Страна: {country}.\n Регион: {region}", "map_url": osm_url}
             else:
-                return f"Широта {lat}, Долгота {lon},\n Страна: {country}"
+                return {"coordinates": f"Широта {lat}, Долгота {lng},\n Страна: {country}", "map_url": osm_url}
 
         else:
             return "Город не найден"
@@ -24,11 +26,18 @@ def get_coordinates(city, key):
         return f"Возникла ошибка {e}"
 
 def show_coordinates(event=None):
+    global map_url
     city = entry.get()
-    coordinates = get_coordinates(city, key)
-    label.config(text=f"Координаты горда {city}:\n {coordinates}")
+    result = get_coordinates(city, key)
+    label.config(text=f"Координаты горда {city}:\n {result['coordinates']}")
+    map_url = result['map_url']
+
+def show_map():
+    if map_url:
+        webbrowser.open(map_url)
 
 key = '9b90a8325e184c319cdfbca0fde66855'
+map_url = ''
 
 window = Tk()
 window.title("Координаты городов")
@@ -43,5 +52,8 @@ button.pack()
 
 label = Label(text="Введите город и нажмите на кнопку")
 label.pack()
+
+map_button = Button(text="Показать карту", command=show_map)
+map_button.pack()
 
 window.mainloop()
