@@ -16,7 +16,7 @@ def get_coordinates(city, key):
     except Exception as e:
         return f"Возникла ошибка {e}"
 
-def show_coordinates():
+def show_coordinates(event=None):
     city = entry.get()
     coordinates = get_coordinates(city, key)
     label.config(text=f"Координаты горда {city}:\n {coordinates}")
