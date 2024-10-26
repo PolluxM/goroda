@@ -25,7 +25,7 @@ key = '9b90a8325e184c319cdfbca0fde66855'
 
 window = Tk()
 window.title("Координаты городов")
-window.geometry("200x100")
+window.geometry("400x100")
 
 entry = Entry()
 entry.pack()
