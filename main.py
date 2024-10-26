@@ -19,7 +19,7 @@ def get_coordinates(city, key):
 def show_coordinates():
     city = entry.get()
     coordinates = get_coordinates(city, key)
-    label.config(text=f"Координаты горда {city}: {coordinates}")
+    label.config(text=f"Координаты горда {city}:\n {coordinates}")
 
 key = '9b90a8325e184c319cdfbca0fde66855'
 
@@ -29,6 +29,7 @@ window.geometry("400x100")
 
 entry = Entry()
 entry.pack()
+entry.bind("<Return>", show_coordinates)
 
 button = Button(text="Поиск координат", command=show_coordinates)
 button.pack()
