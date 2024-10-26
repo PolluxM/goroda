@@ -1,3 +1,4 @@
+#по Модулую M10_L3
 from opencage.geocoder import OpenCageGeocode
 
 
